@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="card">
+      <div className="card card-wide">
         <h1 className="page-title">Dashboard</h1>
         <div className="success-message">
           🎉 You are logged in successfully!

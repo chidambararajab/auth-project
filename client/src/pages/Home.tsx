@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Home: React.FC = () => {
   return (
     <div className="page-container">
-      <div className="card">
+      <div className="card card-medium">
         <h1 className="page-title">Welcome to Auth App</h1>
         <p className="page-description">
           A modern authentication system built with React, TypeScript, and

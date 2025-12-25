@@ -28,11 +28,32 @@ const Register: React.FC = () => {
       navigate("/login");
     },
     onError: (error: any) => {
-      // Handle registration error
-      const errorMessage =
-        error.response?.data?.username?.[0] ||
-        error.response?.data?.error ||
-        "Registration failed. Please try again.";
+      // Handle registration error - detailed logging for debugging
+      console.error("Registration error:", error);
+      console.error("Error response:", error.response);
+      console.error("Error data:", error.response?.data);
+
+      let errorMessage = "Registration failed. Please try again.";
+
+      if (error.response?.data) {
+        // Check for various error formats
+        if (error.response.data.username) {
+          errorMessage = Array.isArray(error.response.data.username)
+            ? error.response.data.username[0]
+            : error.response.data.username;
+        } else if (error.response.data.password) {
+          errorMessage = Array.isArray(error.response.data.password)
+            ? error.response.data.password[0]
+            : error.response.data.password;
+        } else if (error.response.data.error) {
+          errorMessage = error.response.data.error;
+        } else if (error.response.data.detail) {
+          errorMessage = error.response.data.detail;
+        }
+      } else if (error.message) {
+        errorMessage = `Network error: ${error.message}`;
+      }
+
       alert(errorMessage);
     },
   });

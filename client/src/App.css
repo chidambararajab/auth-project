@@ -1,24 +1,11 @@
 /**
  * Main Application Styles
- * Clean, modern UI with minimal design
+ * Full-width, modern UI with responsive design
  */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Page Container */
+/* Page Container - Full Width */
 .page-container {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -27,14 +14,24 @@ body {
   padding: 20px;
 }
 
-/* Card */
+/* Card - Optimized widths for different use cases */
 .card {
   background: white;
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 450px;
   width: 100%;
+  max-width: 500px; /* Default: Good for forms */
+}
+
+/* Wider card for dashboard/content-heavy pages */
+.card-wide {
+  max-width: 900px;
+}
+
+/* Medium card for home page */
+.card-medium {
+  max-width: 600px;
 }
 
 /* Typography */
@@ -214,10 +211,18 @@ body {
   color: #2d3748;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .card {
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card,
+  .card-wide,
+  .card-medium {
     padding: 30px 20px;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .page-container {
+    padding: 15px;
   }
 
   .page-title {
@@ -226,5 +231,37 @@ body {
 
   .button-group {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .card,
+  .card-wide,
+  .card-medium {
+    padding: 25px 15px;
+    border-radius: 0;
+  }
+
+  .page-container {
+    padding: 0;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet: Slightly wider forms */
+  .card {
+    max-width: 550px;
+  }
+
+  .card-medium {
+    max-width: 650px;
+  }
+
+  .card-wide {
+    max-width: 750px;
   }
 }
