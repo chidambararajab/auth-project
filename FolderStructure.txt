@@ -1,0 +1,30 @@
+auth-project/
+├── backend/                    ✅ Django REST API
+│   ├── accounts/              ✅ Auth app
+│   │   ├── serializers.py     ✅ User serializer
+│   │   ├── views.py           ✅ Register & Login
+│   │   └── urls.py            ✅ Routes
+│   ├── backend/
+│   │   └── settings.py        ✅ JWT + CORS config
+│   ├── requirements.txt       ✅ Dependencies
+│   └── db.sqlite3            ✅ Database
+├── client/                    ✅ React Frontend
+│   └── src/
+│       ├── api/
+│       │   ├── axios.ts       ✅ Axios config
+│       │   └── auth.ts        ✅ API functions
+│       ├── components/
+│       │   ├── Input.tsx      ✅ Form input
+│       │   └── Button.tsx     ✅ Button
+│       ├── hooks/
+│       │   └── useAuth.ts     ✅ Auth hook
+│       ├── pages/
+│       │   ├── Home.tsx       ✅ Landing
+│       │   ├── Register.tsx   ✅ Registration
+│       │   ├── Login.tsx      ✅ Login
+│       │   └── Dashboard.tsx  ✅ Protected
+│       ├── router/
+│       │   └── AppRouter.tsx  ✅ Routing
+│       ├── App.tsx            ✅ Main app
+│       └── main.tsx           ✅ React Query setup
+└── venv/                      ✅ Virtual environment

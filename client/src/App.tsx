@@ -1,11 +1,13 @@
+/**
+ * Main App Component
+ * Entry point that renders the router
+ */
+import React from "react";
+import AppRouter from "./router/AppRouter";
 import "./App.css";
 
-function App() {
-  return (
-    <>
-      <h1>Auth</h1>
-    </>
-  );
-}
+const App: React.FC = () => {
+  return <AppRouter />;
+};
 
 export default App;
