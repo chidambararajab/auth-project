@@ -3,11 +3,13 @@
 ## Issue: "Registration failed. Please try again."
 
 ### Root Cause
+
 The error was caused by CSRF token validation and incomplete CORS configuration between the React frontend (localhost:5173) and Django backend (127.0.0.1:8000).
 
 ### What Was Fixed
 
 #### 1. CORS Headers Configuration
+
 **File:** `backend/backend/settings.py`
 
 Added explicit CORS headers to allow all necessary request headers:
@@ -36,6 +38,7 @@ CORS_ALLOW_METHODS = [
 ```
 
 #### 2. CSRF Exemption for API Endpoints
+
 **File:** `backend/accounts/views.py`
 
 Added `@csrf_exempt` decorator to both register and login views:
@@ -51,11 +54,13 @@ def register(request):
 ```
 
 **Why This Is Safe:**
+
 - JWT tokens provide authentication (not session cookies)
 - CORS is properly configured to only allow localhost:5173
 - This is standard practice for REST APIs with token-based auth
 
 #### 3. Enhanced Error Logging
+
 **File:** `client/src/pages/Register.tsx`
 
 Added detailed console logging to help debug future issues:
@@ -65,10 +70,10 @@ onError: (error: any) => {
   console.error("Registration error:", error);
   console.error("Error response:", error.response);
   console.error("Error data:", error.response?.data);
-  
+
   // Better error message extraction
   let errorMessage = "Registration failed. Please try again.";
-  
+
   if (error.response?.data) {
     if (error.response.data.username) {
       errorMessage = Array.isArray(error.response.data.username)
@@ -86,9 +91,9 @@ onError: (error: any) => {
   } else if (error.message) {
     errorMessage = `Network error: ${error.message}`;
   }
-  
+
   alert(errorMessage);
-}
+};
 ```
 
 ---
@@ -98,6 +103,7 @@ onError: (error: any) => {
 ### 1. Ensure Both Servers Are Running
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd backend
 source ../venv/bin/activate
@@ -105,6 +111,7 @@ python manage.py runserver
 ```
 
 **Terminal 2 - Frontend:**
+
 ```bash
 cd client
 npm run dev
@@ -130,18 +137,21 @@ npm run dev
 ### 4. Check Browser Console
 
 Open DevTools (F12) → Console tab:
+
 - Should see no errors
 - If errors appear, they will now be logged with full details
 
 ### 5. Check Backend Logs
 
 In Terminal 1 (backend), you should see:
+
 ```
 [25/Dec/2025 XX:XX:XX] "OPTIONS /api/register/ HTTP/1.1" 200 0
 [25/Dec/2025 XX:XX:XX] "POST /api/register/ HTTP/1.1" 201 42
 ```
 
 **Status Codes:**
+
 - `200` - OPTIONS request (CORS preflight) succeeded
 - `201` - Registration successful
 - `400` - Validation error (check console for details)
@@ -154,12 +164,14 @@ In Terminal 1 (backend), you should see:
 ### Issue 1: CORS Error in Browser Console
 
 **Error:**
+
 ```
-Access to XMLHttpRequest at 'http://127.0.0.1:8000/api/register/' 
+Access to XMLHttpRequest at 'http://127.0.0.1:8000/api/register/'
 from origin 'http://localhost:5173' has been blocked by CORS policy
 ```
 
 **Solution:**
+
 1. Check `backend/backend/settings.py`:
    ```python
    CORS_ALLOWED_ORIGINS = [
@@ -175,6 +187,7 @@ from origin 'http://localhost:5173' has been blocked by CORS policy
 **Error:** Backend returns 400, frontend shows generic error
 
 **Solution:**
+
 1. Open browser DevTools → Network tab
 2. Click on the failed request
 3. Check "Response" tab for actual error
@@ -184,6 +197,7 @@ from origin 'http://localhost:5173' has been blocked by CORS policy
    - Username already exists
 
 **Check with curl:**
+
 ```bash
 curl -X POST http://127.0.0.1:8000/api/register/ \
   -H "Content-Type: application/json" \
@@ -196,6 +210,7 @@ curl -X POST http://127.0.0.1:8000/api/register/ \
 
 **Solution:**
 Already fixed with `@csrf_exempt` decorator. If still occurring:
+
 1. Verify views.py has `@csrf_exempt` decorator
 2. Restart Django server
 3. Clear browser cache
@@ -205,11 +220,13 @@ Already fixed with `@csrf_exempt` decorator. If still occurring:
 **Error:** `Network error: Network Error`
 
 **Causes:**
+
 1. Backend not running
 2. Backend on wrong port
 3. Firewall blocking connection
 
 **Solution:**
+
 1. Check backend is running: `http://127.0.0.1:8000/admin/`
 2. Check axios baseURL in `client/src/api/axios.ts`:
    ```typescript
@@ -222,6 +239,7 @@ Already fixed with `@csrf_exempt` decorator. If still occurring:
 **Error:** `Username already exists.`
 
 **Solution:**
+
 1. Use a different username
 2. Or delete the user from Django admin:
    - Go to `http://127.0.0.1:8000/admin/`
@@ -250,6 +268,7 @@ When registration fails, check these in order:
 Test backend independently:
 
 ### Test Registration:
+
 ```bash
 curl -v -X POST http://127.0.0.1:8000/api/register/ \
   -H "Content-Type: application/json" \
@@ -258,11 +277,13 @@ curl -v -X POST http://127.0.0.1:8000/api/register/ \
 ```
 
 **Expected Response:**
+
 ```json
-{"message":"User registered successfully"}
+{ "message": "User registered successfully" }
 ```
 
 ### Test Login:
+
 ```bash
 curl -v -X POST http://127.0.0.1:8000/api/login/ \
   -H "Content-Type: application/json" \
@@ -271,6 +292,7 @@ curl -v -X POST http://127.0.0.1:8000/api/login/ \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -285,12 +307,15 @@ curl -v -X POST http://127.0.0.1:8000/api/login/ \
 The fixes applied are suitable for development and production:
 
 ### ✅ Safe for Production:
+
 - CORS configured for specific origin (not wildcard)
 - CSRF exemption is standard for JWT APIs
 - AllowAny permission only on register/login (not all endpoints)
 
 ### 🔒 Additional Production Security:
+
 1. **HTTPS Only:**
+
    ```python
    SECURE_SSL_REDIRECT = True
    SESSION_COOKIE_SECURE = True
@@ -298,6 +323,7 @@ The fixes applied are suitable for development and production:
    ```
 
 2. **Rate Limiting:**
+
    ```python
    REST_FRAMEWORK = {
        'DEFAULT_THROTTLE_CLASSES': [
@@ -319,9 +345,9 @@ The fixes applied are suitable for development and production:
 ## Summary
 
 The registration error was fixed by:
+
 1. ✅ Adding explicit CORS headers configuration
 2. ✅ Exempting CSRF for API endpoints (standard for JWT)
 3. ✅ Enhanced error logging for better debugging
 
 The application should now work correctly. If you still encounter issues, check the browser console and backend terminal for detailed error messages.
-

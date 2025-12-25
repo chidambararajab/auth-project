@@ -5,6 +5,7 @@
 ### 1. Start Both Servers
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd /Users/chidambararajab/Documents/Chid/Development/ATasks/auth-project
 source venv/bin/activate
@@ -13,17 +14,20 @@ python manage.py runserver
 ```
 
 **Expected Output:**
+
 ```
 Starting development server at http://127.0.0.1:8000/
 ```
 
 **Terminal 2 - Frontend:**
+
 ```bash
 cd /Users/chidambararajab/Documents/Chid/Development/ATasks/auth-project/client
 npm run dev
 ```
 
 **Expected Output:**
+
 ```
 Local:   http://localhost:5173/
 ```
@@ -35,16 +39,19 @@ Local:   http://localhost:5173/
 2. **Click "Register"**
 
 3. **Fill Form:**
+
    - Username: `johndoe`
    - Password: `mypassword123`
 
 4. **Click "Register" Button**
 
 5. **Expected Result:**
+
    - ✅ Alert: "Registration successful! Please login."
    - ✅ Redirects to `/login` page
 
 6. **Check Browser Console (F12):**
+
    - Should show no errors
    - If errors exist, they're now logged with details
 
@@ -57,12 +64,14 @@ Local:   http://localhost:5173/
 ### 3. Test Login Flow
 
 1. **On Login Page, Enter:**
+
    - Username: `johndoe`
    - Password: `mypassword123`
 
 2. **Click "Login"**
 
 3. **Expected Result:**
+
    - ✅ Redirects to `/dashboard`
    - ✅ Shows: "You are logged in successfully!"
    - ✅ Shows token preview
@@ -76,6 +85,7 @@ Local:   http://localhost:5173/
 ### 4. Test Protected Route
 
 1. **Click "Logout"**
+
    - Should redirect to `/login`
    - LocalStorage should be cleared
 
@@ -90,6 +100,7 @@ Local:   http://localhost:5173/
 ### Backend Changes
 
 #### 1. settings.py - Enhanced CORS Configuration
+
 ```python
 # Added explicit headers
 CORS_ALLOW_HEADERS = [
@@ -115,6 +126,7 @@ CORS_ALLOW_METHODS = [
 ```
 
 #### 2. views.py - CSRF Exemption
+
 ```python
 from django.views.decorators.csrf import csrf_exempt
 
@@ -126,6 +138,7 @@ def register(request):
 ```
 
 **Why CSRF Exempt?**
+
 - REST APIs with JWT don't need CSRF protection
 - CSRF protects session-based auth (cookies)
 - JWT tokens are in headers, not cookies
@@ -134,15 +147,16 @@ def register(request):
 ### Frontend Changes
 
 #### 3. Register.tsx - Better Error Handling
+
 ```typescript
 onError: (error: any) => {
   console.error("Registration error:", error);
   console.error("Error response:", error.response);
   console.error("Error data:", error.response?.data);
-  
+
   // Extract specific error messages
   let errorMessage = "Registration failed. Please try again.";
-  
+
   if (error.response?.data) {
     if (error.response.data.username) {
       errorMessage = Array.isArray(error.response.data.username)
@@ -155,12 +169,13 @@ onError: (error: any) => {
     }
     // ... more error checks
   }
-  
+
   alert(errorMessage);
-}
+};
 ```
 
 **Benefits:**
+
 - Shows specific error (e.g., "Username already exists")
 - Logs full error to console for debugging
 - Handles different error formats from Django
@@ -211,38 +226,50 @@ curl -X OPTIONS http://127.0.0.1:8000/api/register/ \
 ## Error Scenarios to Test
 
 ### 1. Username Already Exists
+
 **Steps:**
+
 1. Register with username: `duplicate`
 2. Try registering again with same username
 
 **Expected:**
+
 - Alert: "Username already exists."
 
 ### 2. Password Too Short
+
 **Steps:**
+
 1. Enter username: `shortpass`
 2. Enter password: `123` (less than 8 chars)
 3. Click Register
 
 **Expected:**
+
 - Frontend validation: "Password is required"
 - Or backend: "Ensure this field has at least 8 characters."
 
 ### 3. Empty Fields
+
 **Steps:**
+
 1. Leave username empty
 2. Click Register
 
 **Expected:**
+
 - Frontend validation: "Username is required"
 
 ### 4. Invalid Login
+
 **Steps:**
+
 1. Go to Login page
 2. Enter wrong password
 3. Click Login
 
 **Expected:**
+
 - Alert: "Invalid credentials"
 - Status code: 401
 
@@ -257,13 +284,14 @@ curl -X OPTIONS http://127.0.0.1:8000/api/register/ \
 ✅ Protected routes redirect when not logged in  
 ✅ Browser console shows no CORS errors  
 ✅ Backend logs show 200/201 status codes  
-✅ Specific error messages displayed (not generic)  
+✅ Specific error messages displayed (not generic)
 
 ---
 
 ## If Still Not Working
 
 ### Step 1: Check Browser Console
+
 1. Open DevTools (F12)
 2. Go to Console tab
 3. Look for error messages
@@ -273,6 +301,7 @@ curl -X OPTIONS http://127.0.0.1:8000/api/register/ \
    - Is it a validation error?
 
 ### Step 2: Check Network Tab
+
 1. Open DevTools → Network tab
 2. Try registering
 3. Click on the `/api/register/` request
@@ -282,6 +311,7 @@ curl -X OPTIONS http://127.0.0.1:8000/api/register/ \
    - **Response:** What's the actual error message?
 
 ### Step 3: Check Backend Terminal
+
 1. Look at Terminal 1 (backend)
 2. Check the status code:
    - `200` - Success
@@ -291,6 +321,7 @@ curl -X OPTIONS http://127.0.0.1:8000/api/register/ \
    - `500` - Server error
 
 ### Step 4: Restart Everything
+
 ```bash
 # Stop both servers (Ctrl+C in both terminals)
 
@@ -312,10 +343,10 @@ npm run dev
 ## Contact/Debug Info
 
 If issues persist, provide:
+
 1. Browser console errors (screenshot)
 2. Network tab response (screenshot)
 3. Backend terminal output
 4. Username and password used (for testing)
 
 The enhanced error logging will now show exactly what's failing.
-
