@@ -128,15 +128,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS Settings
-# Allow requests from Vite dev server
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Allow all headers for CORS
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -149,7 +147,6 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-# Allow these HTTP methods
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -159,7 +156,6 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',

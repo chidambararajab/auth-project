@@ -19,19 +19,16 @@ const Login: React.FC = () => {
     formState: { errors },
   } = useForm<LoginData>();
 
-  // React Query mutation for login
+  // Query part send
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      // Save tokens to localStorage
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
 
-      // Redirect to dashboard
       navigate("/dashboard");
     },
     onError: (error: any) => {
-      // Handle login error
       const errorMessage =
         error.response?.data?.error ||
         "Login failed. Please check your credentials.";
@@ -58,7 +55,7 @@ const Login: React.FC = () => {
             register={register}
             errors={errors}
             required
-            placeholder="Enter your username"
+            placeholder="Enter username"
           />
 
           <Input

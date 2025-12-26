@@ -1,6 +1,5 @@
 """
-Views for the accounts app.
-Handles user registration and JWT-based login.
+registration and JWT-based login.
 """
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -17,10 +16,7 @@ from .serializers import UserRegistrationSerializer
 @permission_classes([AllowAny])
 def register(request):
     """
-    User registration endpoint.
-    
-    Accepts: username, password
-    Returns: Success message or validation errors
+    registration eurl
     """
     serializer = UserRegistrationSerializer(data=request.data)
     
@@ -42,15 +38,11 @@ def register(request):
 @permission_classes([AllowAny])
 def login(request):
     """
-    User login endpoint with JWT token generation.
-    
-    Accepts: username, password
-    Returns: JWT access and refresh tokens or error message
+    login url
     """
     username = request.data.get('username')
     password = request.data.get('password')
     
-    # Validate required fields
     if not username or not password:
         return Response(
             {"error": "Username and password are required"},

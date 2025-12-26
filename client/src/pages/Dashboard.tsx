@@ -11,14 +11,13 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
 
-  // Redirect to login if not authenticated
+  // Redirect to login rout main pageif not authenticated
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login");
     }
   }, [isLoggedIn, navigate]);
 
-  // Don't render if not logged in
   if (!isLoggedIn) {
     return null;
   }
@@ -27,12 +26,10 @@ const Dashboard: React.FC = () => {
     <div className="page-container">
       <div className="card card-wide">
         <h1 className="page-title">Dashboard</h1>
-        <div className="success-message">
-          🎉 You are logged in successfully!
-        </div>
+        <div className="success-message">🎉 logged in successfully!</div>
         <p className="page-description">
-          Welcome to your protected dashboard. This page is only accessible when
-          you're authenticated.
+          Welcome to protected dashboard. only accessible for authenticated
+          users.
         </p>
         <div className="dashboard-info">
           <p>

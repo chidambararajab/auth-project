@@ -1,6 +1,5 @@
 /**
- * Custom hook for authentication
- * Manages authentication state and provides auth utilities
+ * manages authentication state and provides auth utils
  */
 import { useNavigate } from "react-router-dom";
 
@@ -13,13 +12,12 @@ interface UseAuthReturn {
 export const useAuth = (): UseAuthReturn => {
   const navigate = useNavigate();
 
-  // Get token from localStorage
+  // Gett token from localStorage
   const token = localStorage.getItem("access_token");
   const isLoggedIn = !!token;
 
   /**
-   * Logout function
-   * Removes tokens from localStorage and redirects to login
+   * Logout & Removes tokens from localStorage and redirects to login
    */
   const logout = () => {
     localStorage.removeItem("access_token");

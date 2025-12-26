@@ -1,10 +1,6 @@
-/**
- * Axios instance configuration
- * Base URL points to Django REST API backend
- */
 import axios from "axios";
 
-// Create axios instance with default config
+// base axios
 const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
   headers: {
@@ -12,7 +8,7 @@ const axiosInstance = axios.create({
   },
 });
 
-// Request interceptor to add token to requests
+// requests
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
@@ -26,12 +22,12 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
+// response
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
+      // expired
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       window.location.href = "/login";

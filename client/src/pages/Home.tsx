@@ -9,11 +9,7 @@ const Home: React.FC = () => {
   return (
     <div className="page-container">
       <div className="card card-medium">
-        <h1 className="page-title">Welcome to Auth App</h1>
-        <p className="page-description">
-          A modern authentication system built with React, TypeScript, and
-          Django REST Framework.
-        </p>
+        <h1 className="page-title">Welcome</h1>
         <div className="button-group">
           <Link to="/login" className="btn btn-primary">
             Login

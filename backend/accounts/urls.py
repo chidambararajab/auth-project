@@ -1,5 +1,5 @@
 """
-URL configuration for the accounts app.
+URLs of accouts
 """
 from django.urls import path
 from . import views
