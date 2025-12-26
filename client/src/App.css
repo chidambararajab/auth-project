@@ -1,9 +1,7 @@
 /**
  * Main Application Styles
- * Full-width, modern UI with responsive design
  */
 
-/* Page Container - Full Width */
 .page-container {
   width: 100%;
   min-height: 100vh;
@@ -14,7 +12,6 @@
   padding: 20px;
 }
 
-/* Card - Optimized widths for different use cases */
 .card {
   background: white;
   border-radius: 12px;
@@ -24,17 +21,14 @@
   max-width: 500px; /* Default: Good for forms */
 }
 
-/* Wider card for dashboard/content-heavy pages */
 .card-wide {
   max-width: 900px;
 }
 
-/* Medium card for home page */
 .card-medium {
   max-width: 600px;
 }
 
-/* Typography */
 .page-title {
   font-size: 28px;
   font-weight: 700;
