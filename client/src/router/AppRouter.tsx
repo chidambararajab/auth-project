@@ -1,7 +1,3 @@
-/**
- * Application Router
- * Defines all routes and navigation structure
- */
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";

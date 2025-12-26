@@ -1,6 +1,5 @@
 /**
  * Register Page
- * User registration form using React Hook Form and React Query
  */
 import React from "react";
 import { useForm } from "react-hook-form";

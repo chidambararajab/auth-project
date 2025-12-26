@@ -1,6 +1,5 @@
 /**
  * Home Page
- * Landing page with links to Login and Register
  */
 import React from "react";
 import { Link } from "react-router-dom";

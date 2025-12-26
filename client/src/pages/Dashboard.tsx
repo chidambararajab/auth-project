@@ -1,6 +1,5 @@
 /**
- * Dashboard Page (Protected)
- * Only accessible when user is authenticated
+ * Dashboard (Protected)
  */
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
